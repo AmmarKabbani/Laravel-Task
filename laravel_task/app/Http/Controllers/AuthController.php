@@ -23,7 +23,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [ 
             'first_name' => 'required|string|min:5',
             'last_name' => 'required|string|min:5',
-            'date_of_birth' => 'required|date_format:m/d/Y',
+            'date_of_birth' => 'required|date_format:Y-m-d',
             'gender' => 'in:Male,Female',
             'email' => 'required|email',
             'phone_number' => 'digits:10|unique',
@@ -31,14 +31,30 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed|min:8',
         ],[
             'gender.in' => 'must be Male or Female',
-            'date_of_birth.date_format' => 'must be in m/d/Y format like : 01/01/2000'
+            'date_of_birth.date_format' => 'must be in Y-m-d format like : 2023-02-27'
         ]
         );
-        // return the error and info about it if something wrong with user input 
+        /**
+         * return the error and info about it if something wrong with user input  
+        */ 
         if ($validator->fails()) {
             return $validator->errors();
         }
 
-        return $this->success('','check successfully');
+        /**
+         * store user info in DB
+         */
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'date_of_birth' => $request->date_of_birth,
+            'gender' => $request->gender,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return $this->success('','Registered Successfully');
     }
 }
