@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -56,5 +57,31 @@ class AuthController extends Controller
         ]);
 
         return $this->success('','Registered Successfully');
+    }
+
+    public function login(Request $request)
+    {
+        // validation on user input
+        $validator = Validator::make($request->all(), [ 
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        /**
+         * return the error and info about it if something wrong with user input  
+        */ 
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+
+        // Check if the username and password match in Database 
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            // Success
+            $userInfo = User::all();
+            return $this->success($userInfo,'Logged in Successfully');
+        } else {
+            // fail
+            return $this->error('The Username or password you’ve entered is incorrect',403);
+        }
     }
 }
