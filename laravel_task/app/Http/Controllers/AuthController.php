@@ -77,7 +77,7 @@ class AuthController extends Controller
         // Check if the username and password match in Database 
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
             // Success
-            $userInfo = User::all();
+            $userInfo = User::where('username',$request->username)->get();
             return $this->success($userInfo,'Logged in Successfully');
         } else {
             // fail
