@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +20,5 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'api_key'], function ($routes) {
     Route::post('/registerUser',[AuthController::class , "register"]);
     Route::post('/login',[AuthController::class , "login"]);
+    Route::get('/userInfo/userId={id}',[UserController::class , "user_info"]);
 });
