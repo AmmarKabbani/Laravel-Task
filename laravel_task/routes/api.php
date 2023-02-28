@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'api'], function ($routes) {
+Route::group(['middleware' => 'api_key'], function ($routes) {
     Route::post('/registerUser',[AuthController::class , "register"]);
+    Route::post('/login',[AuthController::class , "login"]);
 });

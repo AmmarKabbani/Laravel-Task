@@ -28,12 +28,11 @@ trait HttpResponses {
      * @param int $code
      */
 
-    protected function error($data, string $message = null, int $code)
+    protected function error(string $message = null, int $code)
     {
         return response()->json([
             'status' => 'An error has occurred...',
             'message' => $message,
-            'data' => $data
         ], $code);
     }
 }
