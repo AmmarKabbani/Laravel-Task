@@ -26,7 +26,7 @@ class AuthController extends Controller
             'last_name' => 'required|string|min:5',
             'date_of_birth' => 'required|date_format:Y-m-d',
             'gender' => 'in:Male,Female',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'phone_number' => 'digits:10|unique',
             'username' => 'required|string|unique:users',
             'password' => 'required|string|confirmed|min:8',
